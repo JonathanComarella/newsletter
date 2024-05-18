@@ -29,23 +29,27 @@ public class NewsletterServiceImpl implements NewsletterService {
     private EmailService emailService;
 
     public void sendNewsletter() {
-        logger.info("sendNewsletter() inicializado!");
+        logger.info("sendNewsletter() - inicializado!");
 
         List<Client> clientList = clientRepository.findAll();
         List<News> newsList = newsRepository.findByProcessedIsNull();
 
-        clientList.forEach(client -> {
-            String emailContent = buildEmailContent(client.getName(), client.getBirthDate(), newsList);
-            emailService.sendEmail(client.getEmail(), "Notícias do dia!", emailContent);
-        });
+        if (newsList.isEmpty()) {
+            logger.info("sendNewsletter() - Nenhuma notícia cadastrada para o dia de hoje. 0 e-mails enviados.");
+        } else {
+            clientList.forEach(client -> {
+                String emailContent = buildEmailContent(client.getName(), client.getBirthDate(), newsList);
+                emailService.sendEmail(client.getEmail(), "Notícias do dia!", emailContent);
+            });
 
-        LocalDate newDate = LocalDate.now();
-        newsList.forEach(news -> {
-            news.setProcessed(newDate);
-            newsRepository.save(news);
-        });
+            LocalDate newDate = LocalDate.now();
+            newsList.forEach(news -> {
+                news.setProcessed(newDate);
+                newsRepository.save(news);
+            });
+        }
 
-        logger.info("sendNewsletter() finalizado!");
+        logger.info("sendNewsletter() - finalizado!");
     }
 
     private String buildEmailContent(String clientName, LocalDate birthDate, List<News> newsList) {
@@ -70,6 +74,7 @@ public class NewsletterServiceImpl implements NewsletterService {
             content.append("</b><br>");
             content.append(news.getDescription()).append("<br><br><br>");
         }
+
         content.append("<b>Até a próxima!</b><br>");
         return content.toString();
     }

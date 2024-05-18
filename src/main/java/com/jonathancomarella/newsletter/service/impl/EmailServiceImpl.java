@@ -16,7 +16,7 @@ public class EmailServiceImpl implements EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
-    @Autowired(required = true)
+    @Autowired
     private JavaMailSender javaMailSender;
 
     public void sendEmail(String to, String subject, String content) {
