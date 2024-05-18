@@ -6,6 +6,8 @@ import com.jonathancomarella.newsletter.repository.ClientRepository;
 import com.jonathancomarella.newsletter.repository.NewsRepository;
 import com.jonathancomarella.newsletter.service.EmailService;
 import com.jonathancomarella.newsletter.service.NewsletterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class NewsletterServiceImpl implements NewsletterService {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class);
 
     @Autowired
     private ClientRepository clientRepository;
@@ -25,6 +29,7 @@ public class NewsletterServiceImpl implements NewsletterService {
     private EmailService emailService;
 
     public void sendNewsletter() {
+        logger.info("sendNewsletter() inicializado!");
 
         List<Client> clientList = clientRepository.findAll();
         List<News> newsList = newsRepository.findByProcessedIsNull();
@@ -39,6 +44,8 @@ public class NewsletterServiceImpl implements NewsletterService {
             news.setProcessed(newDate);
             newsRepository.save(news);
         });
+
+        logger.info("sendNewsletter() finalizado!");
     }
 
     private String buildEmailContent(String clientName, LocalDate birthDate, List<News> newsList) {
