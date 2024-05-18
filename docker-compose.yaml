@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: jcnewsletter
+      POSTGRES_PASSWORD: news123
+      POSTGRES_DB: jcnewsletter
+    ports:
+      - "5432:5432"
