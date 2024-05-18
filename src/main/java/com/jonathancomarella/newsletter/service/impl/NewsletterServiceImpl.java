@@ -48,7 +48,7 @@ public class NewsletterServiceImpl implements NewsletterService {
         if (birthDate != null && isBirthday(birthDate)) {
             content.append(", Feliz aniversário!</b><br>");
         } else {
-            content.append("</b><br>");
+            content.append("</b><br><br><br>");
         }
 
         for (News news : newsList) {
@@ -61,7 +61,7 @@ public class NewsletterServiceImpl implements NewsletterService {
                 content.append("</a>");
             }
             content.append("</b><br>");
-            content.append(news.getDescription()).append("<br>");
+            content.append(news.getDescription()).append("<br><br><br>");
         }
         content.append("<b>Até a próxima!</b><br>");
         return content.toString();
