@@ -6,7 +6,7 @@ Para iniciar o projeto, é necessário ter o Docker e o Docker Compose instalado
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seu-usuario/jc-newsletter.git
+   git clone https://github.com/JonathanComarella/newsletter
    cd jc-newsletter
    ```
 2. Execute o Docker Compose:
