@@ -1,6 +1,7 @@
 package com.jonathancomarella.newsletter.service.impl;
 
 import com.jonathancomarella.newsletter.dto.ClientDto;
+import com.jonathancomarella.newsletter.exception.EmailAlreadyExistsException;
 import com.jonathancomarella.newsletter.model.Client;
 import com.jonathancomarella.newsletter.repository.ClientRepository;
 import com.jonathancomarella.newsletter.service.ClientService;
@@ -18,6 +19,10 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto createClient(ClientDto clientDto) {
+        if (clientRepository.existsByEmail(clientDto.getEmail())) {
+            throw new EmailAlreadyExistsException("E-mail já cadastrado: " + clientDto.getEmail());
+        }
+
         Client client = modelMapper.map(clientDto, Client.class);
         client = clientRepository.save(client);
         return modelMapper.map(client, ClientDto.class);

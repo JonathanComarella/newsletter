@@ -8,3 +8,15 @@ services:
       POSTGRES_DB: jcnewsletter
     ports:
       - "5432:5432"
+
+  newsletter-app:
+    build: .
+    container_name: newsletter-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jcnewsletter
+      SPRING_DATASOURCE_USERNAME: jcnewsletter
+      SPRING_DATASOURCE_PASSWORD: news123
